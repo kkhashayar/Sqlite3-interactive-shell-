@@ -211,6 +211,7 @@ class Manager:
 manager = Manager()
 # Call the main function of class manager 
 manager.main()
+manager.menu()
 
 
 

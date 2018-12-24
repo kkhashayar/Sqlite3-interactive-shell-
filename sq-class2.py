@@ -5,8 +5,6 @@ add - remove - list - update functions
 # Importing the modules 
 import sqlite3, os, time
 
-
-
 class Manager:
     def __init__(self):
         self.name = ""
@@ -211,7 +209,7 @@ class Manager:
 manager = Manager()
 # Call the main function of class manager 
 manager.main()
-manager.menu()
+
 
 
 

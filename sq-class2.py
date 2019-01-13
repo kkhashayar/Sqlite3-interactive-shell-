@@ -9,42 +9,62 @@ class Manager:
     def __init__(self):
         self.name = ""
         self.phone = ""
-        self.address = ""
-    def __str__(self):
-        return self.name
-        return self.phone
-        return self.address
+        self.address = "
     # add method()
     # 1) connects to database connection file
     # 2) performs insert method in to the table using while loop
     # 3) at the end  by using conditional if/else statement we can
     # 4) continue or break the while loop and back to the main manu 
+    # This is update version, runs data check to preventing from duplicate and null Entry.
     def add(self):
         running = True
         while running:
-            os.system("clear")
+            os.system("cls")
             print("****** Add new contact ******")
+            print("Press Shift + Q to cancel")
             print()
-            self.name = input("Name: ")
-            time.sleep(0.10)
-            self.phone = input("Phone: ")
-            time.sleep(0.10)
-            self.address = input("Address: ")
-            db = sqlite3.connect("connection")
-            cursor = db.cursor()
-            cursor.execute(""" INSERT INTO contacts\
-                                   (Name, Phone, Address) VALUES (?,?,?)""",\
-                                   (self.name, self.phone, self.address))
-            db.commit()
-            add_more = input("Add more? (Y?N): ")
-            if add_more == "y".lower():
-                continue
-            else:
-                running = False
-                print("exiting to main menu")
-                time.sleep(1)
+            temp_name = input("Name: ")
+            if len(temp_name) != 0 and temp_name != "Q".upper():
+                db = sqlite3.connect("connection")
+                cursor = db.cursor()
+                cursor.execute("SELECT Name FROM contacts")
+                results = cursor.fetchall()
+                for i in results:
+                    if temp_name in i:
+                        print("Contact already exist!")
+                        time.sleep(1)
+                        self.add()
+                self.name = temp_name
+                temp_name = ""
+                time.sleep(0.10)
+                self.phone = input("Phone: ")
+                time.sleep(0.10)
+                self.address = input("Address: ")
+
+                cursor.execute(""" INSERT INTO contacts\
+                                       (Name, Phone, Address) VALUES (?,?,?)""",\
+                                       (self.name, self.phone, self.address))
+                db.commit()
+                add_more = input("Add more? (Y?N): ")
+                if add_more == "y".lower():
+                    continue
+                else:
+                    running = False
+                    print("exiting to main menu")
+                    time.sleep(1)
+                    db.close()
+                    self.menu()
+            elif temp_name == "Q".upper():
+                print("Exiting to main menu")
                 db.close()
+                time.sleep(1)
                 self.menu()
+            else:
+                winsound.Beep(3000,100)
+                winsound.Beep(3000,100)
+                print("Entry cant be empty")
+                time.sleep(1)
+                self.add()
 
     # update method()
     # 1) connects to database connection file

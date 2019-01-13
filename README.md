@@ -5,3 +5,6 @@ this is a basic interactive shell writen in python to use sqlite3 as stand alone
 in this program i formated table as contact manager which keeps a track of 
 name, phone and address, user can get a list of records or insert, delete, and update the records.
 program can check for connection file to sqlite3 and if its not there create it.
+
+Update version. i wrote some sort of data check for preventing user of inserting duplicate data and empty record,
+as well as canceling option in add() method.
